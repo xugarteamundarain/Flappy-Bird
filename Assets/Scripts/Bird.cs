@@ -20,7 +20,9 @@ public class Bird : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) ||
+            (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) ||
+            Input.GetMouseButton(0)) 
         {
             // Salto del pájaro
             GetComponent<Rigidbody2D>().AddForce(Vector2.up * force);
@@ -29,7 +31,7 @@ public class Bird : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Restart level
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+        UIManager manager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
+        manager.ShowAds();
     }
 }
